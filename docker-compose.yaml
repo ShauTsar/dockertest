@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: shwme1nilrepeat/test-personal-assistant-postgres:latest
+    environment:
+      POSTGRES_DB: novaDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: NNA2s*123
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: shwme1nilrepeat/test-personal-assistant-redis:latest
+    ports:
+      - "16379:6379"
+
+  elasticsearch:
+    image: shwme1nilrepeat/test-personal-assistant-elastic:latest
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      
+  grpc-server:
+    image: shwme1nilrepeat/test-personal-assistant-grpc
+    ports:
+      - "50051:50051"
+      
+  telegram-bot:
+     image: shwme1nilrepeat/test-personal-assistant-bot
+
+  frontend:
+    image: shwme1nilrepeat/personal-assistant-frontend:latest
+    environment:
+      - REACT_APP_GRPC_HOST=http://localhost:8080
+    ports:
+      - "3000:3000"  # Изменение внешнего порта на 8081
+    depends_on:
+      - envoy
+  envoy:
+    image: shwme1nilrepeat/personal-assistant-envoy:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - personal-assistant-grpc
+    depends_on:
+      - grpc-server
+
+networks:
+  personal-assistant-grpc:
+
+volumes:
+  postgres-data:
