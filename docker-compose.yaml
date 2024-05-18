@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: shwme1nilrepeat/test-personal-assistant-postgres:latest
+    image: shwme1nilrepeat/personal-assistant-postgres:latest
     environment:
       POSTGRES_DB: novaDB
       POSTGRES_USER: postgres
@@ -13,12 +13,12 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   redis:
-    image: shwme1nilrepeat/test-personal-assistant-redis:latest
+    image: shwme1nilrepeat/personal-assistant-redis:latest
     ports:
       - "16379:6379"
 
   elasticsearch:
-    image: shwme1nilrepeat/test-personal-assistant-elastic:latest
+    image: shwme1nilrepeat/personal-assistant-elastic:latest
     environment:
       - discovery.type=single-node
     ports:
@@ -33,7 +33,7 @@ services:
      image: shwme1nilrepeat/test-personal-assistant-bot
 
   frontend:
-    image: shwme1nilrepeat/personal-assistant-frontend:latest
+    image: shwme1nilrepeat/test-personal-assistant-frontend:latest
     environment:
       - REACT_APP_GRPC_HOST=http://localhost:8080
     ports:
@@ -41,7 +41,7 @@ services:
     depends_on:
       - envoy
   envoy:
-    image: shwme1nilrepeat/personal-assistant-envoy:latest
+    image: shwme1nilrepeat/test-personal-assistant-envoy:latest
     ports:
       - "8080:8080"
     networks:
