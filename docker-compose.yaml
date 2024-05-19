@@ -35,7 +35,7 @@ services:
   frontend:
     image: shwme1nilrepeat/test-personal-assistant-frontend
     environment:
-      - REACT_APP_GRPC_HOST=http://localhost:8080
+      - REACT_APP_GRPC_HOST=http://envoy:8080
     ports:
       - "3000:3000"  # Изменение внешнего порта на 8081
     depends_on:
