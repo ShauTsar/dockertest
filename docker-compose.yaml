@@ -11,6 +11,68 @@ services:
       - "15432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - personal-assistant-grpc
+
+  redis:
+    image: shwme1nilrepeat/personal-assistant-redis:latest
+    ports:
+      - "16379:6379"
+    networks:
+      - personal-assistant-grpc
+
+  elasticsearch:
+    image: shwme1nilrepeat/personal-assistant-elastic:latest
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    networks:
+      - personal-assistant-grpc
+      
+  grpc-server:
+    image: shwme1nilrepeat/test-personal-assistant-grpc
+    ports:
+      - "50051:50051"
+    networks:
+      - personal-assistant-grpc
+      
+  telegram-bot:
+    image: shwme1nilrepeat/test-personal-assistant-bot
+    networks:
+      - personal-assistant-grpc
+
+  frontend:
+    image: shwme1nilrepeat/test-personal-assistant-frontend
+    environment:
+      - REACT_APP_GRPC_HOST=http://envoy:8080
+    ports:
+      - "3000:3000"
+    depends_on:
+      - envoy
+    networks:
+      - personal-assistant-grpc
+
+  envoy:
+    image: shwme1nilrepeat/test-personal-assistant-envoy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    depends
+version: '3.8'
+
+services:
+  postgres:
+    image: shwme1nilrepeat/personal-assistant-postgres
+    environment:
+      POSTGRES_DB: novaDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: NNA2s*123
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   redis:
     image: shwme1nilrepeat/personal-assistant-redis:latest
