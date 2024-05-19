@@ -57,8 +57,6 @@ services:
     image: shwme1nilrepeat/test-personal-assistant-envoy
     ports:
       - "8080:8080"
-    volumes:
-      - ./envoy.yaml:/etc/envoy/envoy.yaml
     depends_on:
       - grpc-server
     networks:
