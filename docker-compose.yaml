@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: shwme1nilrepeat/personal-assistant-postgres:latest
+    image: shwme1nilrepeat/personal-assistant-postgres
     environment:
       POSTGRES_DB: novaDB
       POSTGRES_USER: postgres
