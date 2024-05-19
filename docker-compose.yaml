@@ -41,7 +41,7 @@ services:
     depends_on:
       - envoy
   envoy:
-    image: shwme1nilrepeat/test-personal-assistant-envoy:latest
+    image: shwme1nilrepeat/shwme1nilrepeat/test-personal-assistant-envoy
     ports:
       - "8080:8080"
     networks:
